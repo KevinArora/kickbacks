@@ -87,20 +87,20 @@ public class FavoritesApiFeatureTest {
 
         secondFav.setTitle("jk third test");
 
-//        given()
-//                .contentType(JSON)
-//                .and().body(secondFav)
-//                .when()
-//                .patch("http://localhost:8080/favorites/"+secondFav.getId())
-//                .then()
-//                .statusCode(is(200)) //error here
-//                .and().body(containsString("third"));
+        given()
+                .contentType(JSON)
+                .and().body(secondFav)
+                .when()
+                .patch("http://localhost:8080/favorites/"+secondFav.getId())
+                .then()
+                .statusCode(is(200)) //error here
+                .and().body(containsString("third"));
 
-//        when()
-//                .delete("http://localhost:8080/favorites"+secondFav.getId())
-//                .then()
-//                .statusCode(is(200));
-//
+        when()
+                .delete("http://localhost:8080/favorites"+secondFav.getId())
+                .then()
+                .statusCode(is(200));
+
 
     }
 }

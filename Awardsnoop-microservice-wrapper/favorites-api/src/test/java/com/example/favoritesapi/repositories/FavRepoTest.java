@@ -46,7 +46,7 @@ public class FavRepoTest {
         assertThat(Iterables.size(usersFromDB), is(2));
     }
     @Test
-    public void findAll_returnsUserName() {
+    public void findAll_returnsTitle() {
         Iterable<Favorite> usersFromDb = favRepo.findAll();
 
         String secondFavTitle = Iterables.get(usersFromDb, 1).getTitle();
@@ -55,7 +55,7 @@ public class FavRepoTest {
     }
 
     @Test
-    public void findAll_returnsFirstName() {
+    public void findAll_returnsDescription() {
         Iterable<Favorite> usersFromDb = favRepo.findAll();
 
         String secondFavDescription = Iterables.get(usersFromDb, 1).getDescription();

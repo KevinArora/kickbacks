@@ -1,11 +1,39 @@
 import React, { Component } from 'react';
 import Favoritelist from './Favoritelist';
 import Resultlist from './Resultlist';
+import axios from 'axios';
 class Home extends Component {
-  state = {}
+  state = {
+    favorites: [],
+    data: [],
+    query: '',
+    searchData: [],
+    }
+    componentDidMount = async () => {
+      await axios.get("https://data.cityofnewyork.us/resource/buex-bi6w.json").then((res) => {
+        let data = [...res.data]
+        this.setState({ data })
+        console.log(data);
+      })
+    }
+    query = (query) => {
+      this.setState({ query })
+  
+      let Data = this.state.data
+      let searchData = []
+  
+      if (this.state.query !== "") {
+        Data.forEach(data => {
+          if (data.agency_name.includes(`${this.state.query}`) || data.request_id.includes(`${this.state.query}`) || data.section_name.includes(`${this.state.searchingFor}`) || data.short_title.includes(`${this.state.searchingFor}`)) {
+            searchData.push(data);
+          }
+        })
+        this.setState({ searchData })
+      }
+    }
   render() { 
-    return ( <div>home
-      <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    return ( <div>
+      {/* <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
       <div className="container">
         <a className="navbar-brand" href="#">Start Bootstrap</a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,8 +125,12 @@ class Home extends Component {
         <p className="m-0 text-center text-white small">Copyright &copy; Your Website 2018</p>
       </div>
       
-    </footer>
-      <Resultlist/>
+    </footer> */}
+      <Resultlist
+      data={this.state.data}
+      query={this.state.query}
+      searchData={this.state.searchData}
+      />
       <Favoritelist />
     </div> )
   }

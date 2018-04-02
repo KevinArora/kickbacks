@@ -17,6 +17,7 @@ class Result extends Component {
                 <p>{this.props.data.section_name}</p>
                 <p>{this.props.data.short_title}</p>
                 <p>{this.props.data.additional_description_1}</p>
+                <button onClick={this.props.saveFav}>save</button>
             </div>
       
    )

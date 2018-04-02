@@ -8,6 +8,7 @@ class Home extends Component {
     data: [],
     query: '',
     searchData: [],
+    saved:[]
     }
     componentDidMount = async () => {
       await axios.get("https://data.cityofnewyork.us/resource/buex-bi6w.json").then((res) => {
@@ -31,6 +32,25 @@ class Home extends Component {
         this.setState({ searchData })
       }
     }
+    saveFav = async (data) => {
+      console.log('SAVING DATA:', data)
+  
+      let newData = {
+        id: data.request_id,
+        title: data.agency_name + ', '+data.section_name,
+        description: data.additional_description_1
+      }
+      await axios.post("/favorites", newData)
+      
+    }
+    deleteFav = async (id, index) => {
+      await axios.delete(`/favorites/${id}`)
+  
+      let saved = [...this.state.saved]
+      saved.splice(index, 1)
+      this.setState({ saved, selected: null })
+    }
+    
   render() { 
     return ( <div>
       {/* <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
@@ -130,6 +150,7 @@ class Home extends Component {
       data={this.state.data}
       query={this.state.query}
       searchData={this.state.searchData}
+      saveFav={this.state.saveFav}
       />
       <Favoritelist />
     </div> )

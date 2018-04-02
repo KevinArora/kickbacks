@@ -13,6 +13,7 @@ class Resultlist extends Component {
             return <Result 
                 data={data} 
                 key={index} 
+                saveFav={this.props.saveFav}
               />
             })
           }

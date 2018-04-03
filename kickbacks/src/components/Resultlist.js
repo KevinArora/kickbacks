@@ -4,7 +4,7 @@ class Resultlist extends Component {
   state = {}
   render() {
     
-      console.log('asdfasdfasdfasdfasdf', this.props.data)
+      console.log('asdfasdfasdfasdfasdf', this.props.saveFav)
 
     return (
       <div className="result-column" style={{width:"50%", height: "500px",overflowy: "scroll"}}>

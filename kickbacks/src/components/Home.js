@@ -7,14 +7,18 @@ class Home extends Component {
     favorites: [],
     data: [],
     query: '',
-    searchData: [],
-    saved:[]
+    searchData: []
     }
     componentDidMount = async () => {
       await axios.get("https://data.cityofnewyork.us/resource/buex-bi6w.json").then((res) => {
         let data = [...res.data]
         this.setState({ data })
         console.log(data);
+      })
+      await axios.get("/favorites").then((res) => {
+        let favorites = [...res.data]
+        this.setState({ favorites})
+        console.log(favorites);
       })
     }
     query = (query) => {
@@ -33,26 +37,34 @@ class Home extends Component {
       }
     }
     saveFav = async (data) => {
-      console.log('SAVING DATA:', data)
-  
+      console.log('save check ', data)
+      console.log(Number(data.request_id));
       let newData = {
-        id: data.request_id,
+        ID: parseInt(data.request_id),
         title: data.agency_name + ', '+data.section_name,
         description: data.additional_description_1
       }
       await axios.post("/favorites", newData)
+      console.log(this.state.favorites,newData)
+      let favorites = [...this.state.favorites]
+      favorites.push(newData)
+      this.setState({ favorites })
       
     }
     deleteFav = async (id, index) => {
-      await axios.delete(`/favorites/${id}`)
+      
+    
+      console.log(id.id);
+     
+      await axios.delete(`/favorites/${id.id}`)
   
-      let saved = [...this.state.saved]
-      saved.splice(index, 1)
-      this.setState({ saved, selected: null })
+      let favorites = [...this.state.favorites]
+      favorites.splice(index, 1)
+      this.setState({ favorites})
     }
     
   render() { 
-    return ( <div>
+    return ( <div className="flexcontainer">
       {/* <nav className="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
       <div className="container">
         <a className="navbar-brand" href="#">Start Bootstrap</a>
@@ -150,9 +162,11 @@ class Home extends Component {
       data={this.state.data}
       query={this.state.query}
       searchData={this.state.searchData}
-      saveFav={this.state.saveFav}
+      saveFav={this.saveFav}
       />
-      <Favoritelist />
+      <Favoritelist 
+      favorites={this.state.favorites}
+      deleteFav={this.deleteFav}/>
     </div> )
   }
 }
